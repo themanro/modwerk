@@ -13,7 +13,7 @@ const empty = { moduleIds: [], removedStockFx: [] }
 
 describe('the site’s runtime packages', () => {
   it('publishes each listed module with its checked runtime identity, ABI and record counts', () => {
-    expect(USB_MODULE_IDS).toEqual(['everb', 'miniverb', 'tapehead', 'airwindows-chorus', 'lofi2', 'ring-sc', 'previewvol', 'apply-scene', 'repitch', 'poly8', 'vector', 'synth', 'quantizer', 'tapeecho', 'euclid', 'bbd', 'playmodes', 'mute-modes', 'sidechain-compressor', 'output-matrix', 'cc-map', 'quantize-live-rec-toggle', 'recorder-loop-fix', 'analog-bassdrum', 'usb-audio-out-tracks-main-cue'])
+    expect(USB_MODULE_IDS).toEqual(['everb', 'miniverb', 'tapehead', 'airwindows-chorus', 'lofi2', 'ring-sc', 'previewvol', 'apply-scene', 'repitch', 'poly8', 'vector', 'synth', 'quantizer', 'tapeecho', 'euclid', 'bbd', 'playmodes', 'mute-modes', 'sidechain-compressor', 'output-matrix', 'cc-map', 'quantize-live-rec-toggle', 'direct-jump-kyoti', 'dejavu', 'recorder-loop-fix', 'analog-bassdrum', 'usb-audio-out-tracks-main-cue'])
     for (const entry of manifest.packages) {
       const data = file(entry.path), view = new DataView(data.buffer), abi = view.getUint16(4)
       expect(entry.path).toBe(`octatrack-modules/${entry.id}/${entry.version}.mwrm`)
@@ -194,7 +194,7 @@ describe('ABI 9 packages: base features and DSP claims', () => {
     expect(new Set(KEY_BUS_BASES)).toEqual(new Set([baseBinding.identity, ...variants])) // every USB Audio layout of it
     for (const base of variants) expect(catalogue.review(target, empty, keybus, base).problem).toBeUndefined()
     // The published base is built with the resident engines on demand, the only bases with the key bus.
-    expect(readFileSync(new URL('../../../scripts/octatrack-base.mjs', import.meta.url), 'utf8')).toMatch(/The beta base:\n.*--resident-on-demand/)
+    expect(readFileSync(new URL('../../../scripts/octatrack-base.mjs', import.meta.url), 'utf8')).toMatch(/const BETA = \{[^}]*'resident-on-demand': true/)
     for (const base of [undefined, 'b'.repeat(64)]) {
       const problem = catalogue.review(target, empty, keybus, base).problem
       expect(problem).toBeInstanceOf(KeyBusBaseRequired)
