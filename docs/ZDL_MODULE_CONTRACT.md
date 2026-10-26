@@ -6,7 +6,8 @@ questions at the end are answered. Background:
 [ZOOM_MULTISTOMP.md](ZOOM_MULTISTOMP.md).
 
 Goal: list the first Zoom effects on Modwerk safely and documented. They
-install through Zoom Effect Manager for now; a browser install comes later
+install over USB from the browser, with the pedal's own file commands; Zoom
+Effect Manager stays the fallback
 ([Installing on stock firmware](ZOOM_MULTISTOMP.md#installing-on-stock-firmware)).
 
 ## What a module is
@@ -100,6 +101,7 @@ no stock files). ZoomMultistompZDL already reserves 403-499 for its effects,
 500-699 for NAM slots, 700-899 for cab slots and 900-957 for templates; other
 authors ask for a range in a pull request. One clash is already known
 (Matujuice Sweep and stock ANA234Cho, both 496); its author will move it.
+Matujuice GRDLOOP, the looper that MIDISTOMP 2.0 supports, is 497 in group 8.
 
 ## Combinations
 
@@ -117,12 +119,16 @@ listed for a pedal only with hardware evidence for that pedal.
 
 ## Install
 
-For now: download the `.ZDL` and add it to the pedal with Zoom Effect Manager
-2.3.3 or later, with a step-by-step guide and the recovery steps (remove the
-effect in Effect Manager; for a boot freeze, All Initialize, then remove it).
-The browser install is planned separately: from the user's own Zoom updater,
-or as a per-effect install over the pedal's own file commands, which write
-single files (tested on the MS-70CDR 2.10 with a test file, replacement of an installed effect, and adding/removing a new effect) ([Installing on stock firmware](ZOOM_MULTISTOMP.md#installing-on-stock-firmware)).
+Over USB, from the browser, in normal mode: the pedal's own file commands
+write the one effect file and add it to the effect list (the list is offered
+for saving first), every write is read back, then the pedal is power-cycled.
+Removing is the reverse. Tested on the MS-70CDR 2.10: a test file, replacing
+an installed effect, adding and removing a new one, and removing and
+reinstalling one of the project's effects from its editor
+([Installing on stock firmware](ZOOM_MULTISTOMP.md#installing-on-stock-firmware)).
+Recovery: remove the effect again (browser or Effect Manager); for a boot
+freeze, All Initialize, then remove it. Zoom Effect Manager 2.3.3 or later
+stays the fallback, with a step-by-step guide.
 
 ## Machine profiles
 
@@ -143,7 +149,15 @@ his to submit.
 2. One module for the whole family with per-pedal status, as proposed, or one
    per pedal?
 3. The exception to the Octatrack interface: stock firmware has no RAM load,
-   trial, Keep or Undo, so a guided Effect Manager install is the install
-   path. Agreed?
+   trial, Keep or Undo, so a USB file install (write, read back, power-cycle;
+   remove to undo) is the install path, with Effect Manager as the fallback.
+   Agreed?
 4. Who holds the effect-ID ledger: Modwerk, or the project with Modwerk
    checking it?
+5. Firmware variants: MIDISTOMP 2.0 (a replacement firmware for the MS-70CDR
+   2.10; the effect files stay Zoom's) raises the DSP budget to 300 and adds a
+   looper effect, MIDI clock for effects and patch routing. Should a module
+   declare the firmware it needs (for example "MIDISTOMP 2.0 or later"), and
+   the configurator check the pedal's firmware the way the Octatrack's base
+   capabilities are checked? MIDISTOMP is firmware, not a module, so this
+   keeps "no module depends on another".
